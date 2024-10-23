@@ -1,25 +1,25 @@
 package com.kyalo.jpa.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Entity
 @Table(name = "AUTHOR_TBL")
-public class Author {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_generator")
-    @SequenceGenerator(name = "author_generator", sequenceName = "author_sequence", allocationSize = 1)
-    //@TableGenerator(name = "author_generator", table = "author_sequence", pkColumnName = "sequence_name", valueColumnName = "sequence_value", initialValue = 1,allocationSize = 1)
-    private Integer id;
+public class Author extends BaseEntity {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_generator")
+//    @SequenceGenerator(name = "author_generator", sequenceName = "author_sequence", allocationSize = 1)
+//    //@TableGenerator(name = "author_generator", table = "author_sequence", pkColumnName = "sequence_name", valueColumnName = "sequence_value", initialValue = 1,allocationSize = 1)
+//    private Integer id;
 
     @Column(name="f_name")
     private String firstName;
@@ -36,4 +36,7 @@ public class Author {
 
     @Column(insertable = false)
     private LocalDateTime lastModified;
+
+    @ManyToMany(mappedBy = "authors")
+    private List<Course> courses;
 }
