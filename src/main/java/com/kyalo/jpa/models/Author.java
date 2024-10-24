@@ -39,4 +39,14 @@ public class Author extends BaseEntity {
 
     @ManyToMany(mappedBy = "authors")
     private List<Course> courses;
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                '}';
+    }
 }

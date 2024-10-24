@@ -1,5 +1,6 @@
 package com.kyalo.jpa;
 
+import com.github.javafaker.Faker;
 import com.kyalo.jpa.models.Author;
 import com.kyalo.jpa.models.Video;
 import com.kyalo.jpa.repositories.AuthorRepository;
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootApplication
 public class JpaApplication {
@@ -21,19 +23,35 @@ public class JpaApplication {
 		@Bean
 	public CommandLineRunner commandLineRunner(AuthorRepository repository, VideoRepository videoRepository){
 			return args -> {
-				var author = Author.builder()
-						.firstName("Kevin")
-						.lastName("Kyalo")
-						.email("zjwY7@example.com")
-						.age(24)
-						.createdAt(LocalDateTime.now())
-						.build();
-				repository.save(author);
-				var video = Video.builder()
-						.name("abc")
-						.length(35)
-						.build();
-				videoRepository.save(video);
+				System.out.println("--------------Query 1 --------------------");
+				repository.findAllByFirstName("Evie").forEach(System.out::println);
+				System.out.println("--------------Query 2 --------------------");
+				repository.findAllByFirstNameIgnoreCase("evie").forEach(System.out::println);
+				System.out.println("--------------Query 3 --------------------");
+				repository.findAllByFirstNameInIgnoreCase(List.of("evie", "sergio", "romana")).forEach(System.out::println);
+				System.out.println("--------------Query 4 --------------------");
+				repository.findAllByFirstNameContainingIgnoreCase("o").forEach(System.out::println);
+				System.out.println("--------------Query 5 --------------------");
+				repository.findAllByFirstNameStartsWithIgnoreCase("e").forEach(System.out::println);
+				System.out.println("--------------Query 6 --------------------");
+				repository.findAllByFirstNameEndsWithIgnoreCase("e").forEach(System.out::println);
+
+//				for(int i = 0; i < 50; i++) {
+//					Faker faker = new Faker();
+//					var author = Author.builder()
+//							.firstName(faker.name().firstName())
+//							.lastName(faker.name().lastName())
+//							.email(faker.internet().emailAddress())
+//							.age(faker.number().numberBetween(18, 60))
+//							.createdAt(LocalDateTime.now())
+//							.build();
+//					repository.save(author);
+//				}
+//				var video = Video.builder()
+//						.name("abc")
+//						.length(35)
+//						.build();
+//				videoRepository.save(video);
 			};
 		}
 
