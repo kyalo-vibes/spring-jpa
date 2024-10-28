@@ -36,6 +36,19 @@ public class JpaApplication {
 				System.out.println("--------------Query 6 --------------------");
 				repository.findAllByFirstNameEndsWithIgnoreCase("e").forEach(System.out::println);
 
+				var author = Author.builder()
+						.id(1)
+						.firstName("Kevin")
+						.lastName("Kyalo")
+						.email("kk@gmail.com")
+						.age(24)
+						.build();
+				repository.save(author);
+
+				repository.updateAuthor(99,1);
+
+				repository.updateAllAuthorAge(100);
+
 //				for(int i = 0; i < 50; i++) {
 //					Faker faker = new Faker();
 //					var author = Author.builder()
