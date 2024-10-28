@@ -5,10 +5,12 @@ import com.kyalo.jpa.models.Author;
 import com.kyalo.jpa.models.Video;
 import com.kyalo.jpa.repositories.AuthorRepository;
 import com.kyalo.jpa.repositories.VideoRepository;
+import com.kyalo.jpa.specification.AuthorSpecification;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -49,6 +51,15 @@ public class JpaApplication {
 
 				repository.updateAllAuthorAge(100);
 
+				repository.findByNamedQuery(35).forEach(System.out::println);
+
+				repository.updateByNamedQuery(77);
+
+				Specification<Author> spec = Specification
+						.where(AuthorSpecification.hasAge(77)
+								.and(AuthorSpecification.firstNameContains("a")));
+				repository.findAll(spec).forEach(System.out::println);
+
 //				for(int i = 0; i < 50; i++) {
 //					Faker faker = new Faker();
 //					var author = Author.builder()
@@ -67,5 +78,13 @@ public class JpaApplication {
 //				videoRepository.save(video);
 			};
 		}
+
+	@Bean
+	public CommandLineRunner commandLineRunner(AuthorRepository authorRepository){
+		return args -> {
+			authorRepository.findAllByFirstName("e");
+		};
+	}
+
 
 }

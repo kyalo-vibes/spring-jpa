@@ -14,12 +14,37 @@ import java.util.List;
 @SuperBuilder
 @Entity
 @Table(name = "AUTHOR_TBL")
+@NamedQueries(
+        {
+                @NamedQuery(
+                        name = "Author.findByNamedQuery",
+                        query = "select a from Author a where age >= :age"
+                ),
+                @NamedQuery(
+                        name = "Author.updateByNamedQuery",
+                        query = "update Author a set a.age = :age"
+                )
+        }
+)
 public class Author extends BaseEntity {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_generator")
-//    @SequenceGenerator(name = "author_generator", sequenceName = "author_sequence", allocationSize = 1)
-//    //@TableGenerator(name = "author_generator", table = "author_sequence", pkColumnName = "sequence_name", valueColumnName = "sequence_value", initialValue = 1,allocationSize = 1)
-//    private Integer id;
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "author_generator"
+    )
+    @SequenceGenerator(
+            name = "author_generator",
+            sequenceName = "author_sequence",
+            allocationSize = 1
+    )
+    @TableGenerator(
+            name = "author_generator",
+            table = "author_sequence",
+            pkColumnName = "sequence_name",
+            valueColumnName = "sequence_value",
+            initialValue = 1,allocationSize = 1
+    )
+    private Integer id;
 
     @Column(name="f_name")
     private String firstName;
